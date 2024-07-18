@@ -1,0 +1,12 @@
+.jp__header {
+  background-color: #008cff;
+  color: #fff;
+}
+
+.jp__header li a {
+  color: #fff;
+}
+
+.jp__header li a:hover {
+    color: #ffffffe8;
+}
