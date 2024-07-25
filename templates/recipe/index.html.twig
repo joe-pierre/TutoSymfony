@@ -6,5 +6,55 @@
 {% block body %}
 	<section class="container my-4">
 		<h1>Toutes les recettes</h1>
+
+		{% if recipes %}
+
+			<table class="table table-striped my-3">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Nom de la recette</th>
+						<th>Contenu</th>
+						<th>Durée</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for recipe in recipes %}
+						<tr>
+							<td>
+								{{ recipe.id}}
+							</td>
+							<td>
+								{{ recipe.title}}
+							</td>
+							<td>
+								{{ recipe.content}}
+							</td>
+							<td>
+								{{ recipe.duration}}
+							</td>
+							<td>
+								<div class="d-flex gap-1">
+									<a class="btn btn-outline-primary btn-sm" href=" {{ path('app_recipe_show', {slug: recipe.slug, id: recipe.id}) }} ">voir</a>
+									<a class="btn btn-outline-primary btn-sm" href=" {{ path('app_recipe_edit', {id: recipe.id}) }} ">modifier</a>
+
+									<form action="{{ path('app_recipe_delete', {id: recipe.id}) }}" method="post">
+										<input type="hidden" name="_method" value="DELETE">
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recipe.id) }}">
+										<button type="submit" class="btn btn-outline-danger btn-sm">supprimer</button>
+									</form>
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+		{% else %}
+
+			<p class="h4 text-muted text-center my-5">Aucune recette publiée pour l'instant</p>
+
+		{% endif %}
 	</section>
 {% endblock %}

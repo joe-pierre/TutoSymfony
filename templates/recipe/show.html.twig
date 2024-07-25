@@ -3,5 +3,8 @@
 {% block title %}Hello RecipeController!{% endblock %}
 
 {% block body %}
-    <h1>Recette pour : [nom de la recette]</h1>
+    <div class="container my-4">
+        <h2 class="h4">Recette pour : {{ recipe.title }}</h2>
+        <p>{{ recipe.content }}</p>
+    </div>
 {% endblock %}
