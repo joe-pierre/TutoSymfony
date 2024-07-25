@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class RecipeController extends AbstractController
@@ -53,8 +54,8 @@ class RecipeController extends AbstractController
         '/recipe/{slug}-{id}', 
         name: 'app_recipe_show', 
         requirements: [
-            'slug' => '[a-z0-9-]+',
-            'id' => '[0-9]+',
+            'slug' => Requirement::ASCII_SLUG,
+            'id' => Requirement::DIGITS,
         ],
     )]
     public function show(Recipe $recipe, string $slug): Response
