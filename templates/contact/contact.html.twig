@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Contact' %}
+
+{% block body %}
+	<div class="container my-5">
+		<div class="col-md-6 mx-auto">
+			<div class="card shadow">
+				<div class="card-header">
+					<h1 class="text-center text-muted h3">Laissez nous un message</h1>
+				</div>
+
+				<div class="m-4">
+					{{ form_start(form) }}
+					{{ form_widget(form) }}
+
+					<button class="btn btn-primary btn-lg w-100" formnovalidate>Envoyer</button>
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

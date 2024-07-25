@@ -2,13 +2,16 @@
 	<header class="container d-flex justify-content-center py-3">
 		<ul class="nav nav-pills">
 			<li class="nav-item">
-				<a href="{{ path('app_home') }}" class="nav-link {{ app.current_route == 'app_home' ? 'active  aria-current=" page"' : '' }}">Accueil</a>
+				<a href="{{ path('app_home') }}" class="nav-link {{ app.current_route == 'app_home' ? 'active aria-current=" page"' : '' }}">Accueil</a>
 			</li>
 			<li class="nav-item">
-				<a href="{{ path('app_recipe_index') }}" class="nav-link {{ app.current_route == 'app_recipe_index' ? 'active  aria-current=" page"' : '' }}">Recettes</a>
+				<a href="{{ path('app_recipe_index') }}" class="nav-link {{ app.current_route == 'app_recipe_index' ? 'active aria-current=" page"' : '' }}">Recettes</a>
 			</li>
 			<li class="nav-item">
-				<a href="{{ path('app_recipe_create') }}" class="nav-link {{ app.current_route == 'app_recipe_create' ? 'active  aria-current=" page"' : '' }}">Ajouter une recette</a>
+				<a href="{{ path('app_recipe_create') }}" class="nav-link {{ app.current_route == 'app_recipe_create' ? 'active aria-current=" page"' : '' }}">Ajouter une recette</a>
+			</li>
+			<li class="nav-item">
+				<a href="{{ path('app_contact') }}" class="nav-link {{ app.current_route == 'app_contact' ? 'active aria-current=" page"' : '' }}">Contact</a>
 			</li>
 		</ul>
 	</header>

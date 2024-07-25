@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[ORM\Table(name: '`recipes`')]
 #[ORM\UniqueConstraint(fields: ['title'])]
-#[ORM\UniqueConstraint(fields: ['slug'])]
 class Recipe
 {
     use TimestampableEntity;
@@ -23,12 +22,13 @@ class Recipe
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
     #[Censure()]
+    #[ORM\Column(length: 255)]
     private string $title = '';
     
-    #[ORM\Column(length: 255)]
     #[Gedmo\Slug(fields: ['title'])]
+    #[Assert\NotNull()]
+    #[ORM\Column(length: 255)]
     private string $slug = '';
 
     #[ORM\Column(type: Types::TEXT)]

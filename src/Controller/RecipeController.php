@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class RecipeController extends AbstractController
 {
@@ -31,6 +32,12 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slugger = new AsciiSlugger();
+
+            if ($recipe->getTitle() != null || $recipe->getTitle() != '') {
+                 $recipe->setSlug($slugger->slug($recipe->getTitle()));
+            }
+            
             $em->persist($recipe);
             $em->flush();
 
