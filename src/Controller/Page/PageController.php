@@ -1,21 +1,27 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Page;
 
 use App\Utils\ContactFormDTO;
 use App\Form\ContactFormDTOType;
 use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\MailerInterface;
 
-class ContactController extends AbstractController
+class PageController extends AbstractController
 {
+    #[Route('/', name: 'app_home')]
+    public function home(): Response
+    {
+        return $this->render('pages/home.html.twig');
+    }
+
     #[Route('/contact', name: 'app_contact')]
-    public function index(Request $request, MailerInterface $mailer): Response
+    public function contact(Request $request, MailerInterface $mailer): Response
     {
         $contactFormDTO = new ContactFormDTO;
 
@@ -48,7 +54,7 @@ class ContactController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('contact/contact.html.twig', [
+        return $this->render('pages/contact.html.twig', [
             'form' => $form,
         ]);
     }

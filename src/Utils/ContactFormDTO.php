@@ -5,11 +5,8 @@ namespace App\Utils;
 class ContactFormDTO
 {
     public string $name = '';
-
     public string $email = '';
-
     public string $subject = '';
-
     public string $message = '';
 
     public function getName(): string

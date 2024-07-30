@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Recipe;
 
 use App\Entity\Recipe;
 use App\Form\RecipeType;
@@ -9,13 +9,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route('admin/recipes', name: 'app_recipe_')]
 class RecipeController extends AbstractController
 {
-    #[Route('/recipes', name: 'app_recipe_index')]
+    #[Route('/', name: 'index')]
     public function index(RecipeRepository $recipeRepository): Response
     {
         $recipes = $recipeRepository->findAll();
@@ -24,7 +25,10 @@ class RecipeController extends AbstractController
         return $this->render('recipe/index.html.twig', compact('recipes'));
     }
 
-    #[Route('/add-recipe', name: 'app_recipe_create')]
+    #[Route(
+        '/add-recipe', 
+        name: 'create',
+    )]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $recipe = new Recipe;
@@ -52,7 +56,7 @@ class RecipeController extends AbstractController
 
     #[Route(
         '/recipe/{slug}-{id}', 
-        name: 'app_recipe_show', 
+        name: 'show', 
         requirements: [
             'slug' => Requirement::ASCII_SLUG,
             'id' => Requirement::DIGITS,
@@ -69,7 +73,7 @@ class RecipeController extends AbstractController
 
     #[Route(
         '/recipe/{id}/edit', 
-        name: 'app_recipe_edit', 
+        name: 'edit', 
         requirements: [
             'id' => '[0-9]+',
         ],
@@ -83,13 +87,16 @@ class RecipeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            return $this->redirectToRoute('app_recipes');
+            return $this->redirectToRoute('app_recipe_index');
         }
 
         return $this->render('recipe/create.html.twig', compact('form'));
     }
 
-    #[Route('/recipe/{id}', name:'app_recipe_delete', methods: ['DELETE'])]
+    #[Route('/recipe/{id}', 
+        name:'delete', 
+        methods: ['DELETE'],
+    )]
     public function delete(Recipe $recipe, Request $request, EntityManagerInterface $em)
     {
         if ($this->isCsrfTokenValid('delete' . $recipe->getId(), $request->getPayload()->get('_token'))) {
