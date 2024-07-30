@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CategoryRepository;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: '`categories`')]
@@ -23,11 +23,11 @@ class Category
      * @var Collection<int, Recipe>
      */
     #[ORM\ManyToMany(targetEntity: Recipe::class, inversedBy: 'categories')]
-    private Collection $recipe;
+    private Collection $recipes;
 
     public function __construct()
     {
-        $this->recipe = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -50,15 +50,15 @@ class Category
     /**
      * @return Collection<int, Recipe>
      */
-    public function getRecipe(): Collection
+    public function getRecipes(): Collection
     {
-        return $this->recipe;
+        return $this->recipes;
     }
 
     public function addRecipe(Recipe $recipe): static
     {
-        if (!$this->recipe->contains($recipe)) {
-            $this->recipe->add($recipe);
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes->add($recipe);
         }
 
         return $this;
@@ -66,13 +66,8 @@ class Category
 
     public function removeRecipe(Recipe $recipe): static
     {
-        $this->recipe->removeElement($recipe);
+        $this->recipes->removeElement($recipe);
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->name;
     }
 }

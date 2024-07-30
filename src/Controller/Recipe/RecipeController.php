@@ -16,23 +16,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('admin/recipes', name: 'app_recipe_')]
 class RecipeController extends AbstractController
 {
-    #[Route('/', name: 'index')]
+    #[Route(
+        '/', 
+        name: 'index',
+        methods: ['GET'],
+    )]
     public function index(RecipeRepository $recipeRepository): Response
     {
         $recipes = $recipeRepository->findAll();
         // $recipes = $recipeRepository->findRecipesWhereDurationLowerThan(5);
-        
+
         return $this->render('recipe/index.html.twig', compact('recipes'));
     }
 
     #[Route(
         '/add-recipe', 
         name: 'create',
+        methods: ['GET', 'POST'],
     )]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $recipe = new Recipe;
-        
+
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
 
@@ -42,7 +47,7 @@ class RecipeController extends AbstractController
             if ($recipe->getTitle() != null || $recipe->getTitle() != '') {
                  $recipe->setSlug($slugger->slug($recipe->getTitle()));
             }
-            
+
             $em->persist($recipe);
             $em->flush();
 
@@ -61,6 +66,7 @@ class RecipeController extends AbstractController
             'slug' => Requirement::ASCII_SLUG,
             'id' => Requirement::DIGITS,
         ],
+        methods: ['GET'],
     )]
     public function show(Recipe $recipe, string $slug): Response
     {
@@ -74,9 +80,7 @@ class RecipeController extends AbstractController
     #[Route(
         '/recipe/{id}/edit', 
         name: 'edit', 
-        requirements: [
-            'id' => '[0-9]+',
-        ],
+        requirements: ['id' => Requirement::DIGITS],
         methods: ['GET', 'POST'],
     )]
     public function edit(Request $request, Recipe $recipe, EntityManagerInterface $em): Response
@@ -95,6 +99,7 @@ class RecipeController extends AbstractController
 
     #[Route('/recipe/{id}', 
         name:'delete', 
+        requirements: ['id' => Requirement::DIGITS],
         methods: ['DELETE'],
     )]
     public function delete(Recipe $recipe, Request $request, EntityManagerInterface $em)

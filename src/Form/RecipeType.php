@@ -2,12 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Recipe;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Event\PostSetDataEvent;
-use Symfony\Component\Form\Event\PreSetDataEvent;
-use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -33,7 +31,7 @@ class RecipeType extends AbstractType
                 ]),
             ])
             ->add('content', TextareaType::class, [
-                'label' => 'Comment faire cette recette',
+                'label' => 'Description',
                 'empty_data' => '',
                 'constraints' => new Sequentially([
                     new NotNull(),
@@ -44,11 +42,12 @@ class RecipeType extends AbstractType
             ->add('duration', NumberType::class, [
                 'label' => 'Durée (en minutes)',
             ])
-            // ->addEventListener(FormEvents::PRE_SUBMIT, function (PreSubmitEvent $event) {
-            //     $data = $event->getData();
-
-            //     dd($data);
-            // })
+            ->add('categories', EntityType::class, [
+                'class' => Category::class,
+                'placeholder' => 'Choisir une catégorie',
+                'choice_label' => 'name',
+                'multiple' => true, 
+            ])
         ;
     }
 
