@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les catégories{% endblock %}
+
+{% block body %}
+<section class="container my-4">
+    {% if categories %}
+        {% for category in categories %}
+            <span class="badge rounded-pill bg-secondary fs-6"> {{ category}} </span> &nbsp;
+        {% endfor %}
+    {% endif %}
+
+    <div class="my-5">
+        <p><a href="{{ path('app_category_create') }}">créer une nouvelle catégorie</a>
+        </p>
+    </div>
+</section>
+{% endblock %}
